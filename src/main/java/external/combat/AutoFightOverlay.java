@@ -1,6 +1,5 @@
 package external.combat;
 
-import net.runelite.api.Client;
 import net.runelite.client.ui.overlay.*;
 import net.runelite.client.ui.overlay.components.TitleComponent;
 
@@ -13,17 +12,17 @@ import static net.runelite.client.ui.overlay.OverlayManager.OPTION_CONFIGURE;
 class AutoFightOverlay extends OverlayPanel
 {
 	private int maxWidth;
-	private final Client client;
-	private final AutoFightConfig config;
+	// private final Client client;
+	// private final AutoFightConfig config;
 	private final AutoFightPlugin plugin;
 
 	@Inject
-	private AutoFightOverlay(Client client, AutoFightConfig config, AutoFightPlugin plugin)
+	private AutoFightOverlay(/* Client client, AutoFightConfig config, */AutoFightPlugin plugin)
 	{
 		super(plugin);
 		setPosition(OverlayPosition.ABOVE_CHATBOX_RIGHT);
-		this.config = config;
-		this.client = client;
+		// this.config = config;
+		// this.client = client;
 		this.plugin = plugin;
 		addMenuEntry(RUNELITE_OVERLAY_CONFIG, OPTION_CONFIGURE, "Auto-Fight overlay");
 	}

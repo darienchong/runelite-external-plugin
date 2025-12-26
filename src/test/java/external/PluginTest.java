@@ -5,8 +5,6 @@ import external.combat.AutoFightPlugin;
 import net.runelite.client.RuneLite;
 import net.runelite.client.externalplugins.ExternalPluginManager;
 
-import java.util.Arrays;
-
 public class PluginTest
 {
 	@SuppressWarnings("unchecked")

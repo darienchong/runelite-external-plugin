@@ -2,8 +2,6 @@ package helper;
 
 import lombok.extern.slf4j.Slf4j;
 import net.runelite.api.Client;
-import net.runelite.api.NPC;
-import net.runelite.api.Perspective;
 
 import java.awt.*;
 import java.awt.event.MouseEvent;

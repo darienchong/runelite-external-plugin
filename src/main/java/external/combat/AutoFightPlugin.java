@@ -175,9 +175,7 @@ public class AutoFightPlugin extends Plugin {
         }
 
         var p = new Point(chosenMobCanvasPoint.getX(), chosenMobCanvasPoint.getY());
-        SwingUtilities.invokeLater(() -> {
-            Utils.click(client, p, true);
-        });
+        SwingUtilities.invokeLater(() -> Utils.click(client, p, true));
 
         stateInfo.setLastTarget(p);
         stateInfo.setPathingToMobRemainingTicks(config.pathingDelay());
