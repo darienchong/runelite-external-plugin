@@ -10,6 +10,7 @@ public class PluginTest
 	@SuppressWarnings("unchecked")
     public static void main(String[] args) throws Exception
 	{
+		@SuppressWarnings("ArraysAsListWithZeroOrOneArgument")
 		var externalPlugins = Arrays.asList(
 			AutoEatPlugin.class
 		);
