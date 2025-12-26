@@ -40,7 +40,7 @@ public class AutoEatPlugin extends Plugin
 	private final ThreadPoolExecutor executorService = new ThreadPoolExecutor(1, 1, 25, TimeUnit.SECONDS, queue, new ThreadPoolExecutor.DiscardPolicy());
 
 	@Override
-	protected void startUp() throws Exception
+	protected void startUp()
 	{
 		// TODO: Add all foods
 		healingItemIds = Set.of(
@@ -53,7 +53,7 @@ public class AutoEatPlugin extends Plugin
 	}
 
 	@Override
-	protected void shutDown() throws Exception
+	protected void shutDown()
 	{
 		healingItemIds = null;
 	}
@@ -65,7 +65,7 @@ public class AutoEatPlugin extends Plugin
 	}
 
 	@Subscribe
-	public void onGameTick(GameTick gameTick)
+	public void onGameTick(GameTick ignored)
 	{
 		autoEat();
 	}
@@ -139,7 +139,6 @@ public class AutoEatPlugin extends Plugin
 
 		if (!found) {
 			log.debug("didn't find any healing items in the inventory");
-			return;
-		}
+        }
 	}
 }
