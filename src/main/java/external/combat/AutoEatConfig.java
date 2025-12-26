@@ -1,4 +1,4 @@
-package external;
+package external.combat;
 
 import net.runelite.client.config.Config;
 import net.runelite.client.config.ConfigGroup;

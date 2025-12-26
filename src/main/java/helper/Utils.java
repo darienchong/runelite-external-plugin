@@ -2,6 +2,8 @@ package helper;
 
 import lombok.extern.slf4j.Slf4j;
 import net.runelite.api.Client;
+import net.runelite.api.NPC;
+import net.runelite.api.Perspective;
 
 import java.awt.*;
 import java.awt.event.MouseEvent;
@@ -15,14 +17,22 @@ public class Utils {
      * {@link net.runelite.client.callback.ClientThread}
      * it will result in a crash/desynced thread.
      */
-    public static void click(Client client, Rectangle rectangle)
+    public static void click(Client client, Rectangle rectangle, boolean moveMouse)
     {
         assert !client.isClientThread();
         Point point = getClickPoint(rectangle);
-        click(client, point);
+        click(client, point, moveMouse);
     }
 
-    public static void click(Client client, Point p)
+    public static void trySleep(int low, int high) {
+        try {
+            // Give time for the NPC options to appear
+            Thread.sleep(getRandomIntBetweenRange(low, high));
+        } catch (InterruptedException ignored) {
+        }
+    }
+
+    public static void click(Client client, Point p, boolean moveMouse)
     {
         assert !client.isClientThread();
 
@@ -32,15 +42,17 @@ public class Utils {
             final Dimension real = client.getRealDimensions();
             final double width = (stretched.width / real.getWidth());
             final double height = (stretched.height / real.getHeight());
-            final Point point = new Point((int) (p.getX() * width), (int) (p.getY() * height));
-            mouseEvent(501, client, point);
-            mouseEvent(502, client, point);
-            mouseEvent(500, client, point);
-            return;
+            p = new Point((int) (p.getX() * width), (int) (p.getY() * height));
         }
-        mouseEvent(501, client, p);
-        mouseEvent(502, client, p);
-        mouseEvent(500, client, p);
+
+        if (moveMouse) {
+            mouseEvent(MouseEvent.MOUSE_MOVED, client, p);
+            trySleep(50, 100);
+        }
+        mouseEvent(MouseEvent.MOUSE_PRESSED, client, p);
+        trySleep(40, 200);
+        mouseEvent(MouseEvent.MOUSE_RELEASED, client, p);
+        mouseEvent(MouseEvent.MOUSE_CLICKED, client, p);
     }
 
     public static Point getClickPoint(Rectangle rect)
@@ -58,14 +70,19 @@ public class Utils {
 
     private static void mouseEvent(int id, Client client, Point point)
     {
-        MouseEvent e = new MouseEvent(
-                client.getCanvas(), id,
-                System.currentTimeMillis(),
-                0, (int) point.getX(), (int) point.getY(),
-                1, false, 1
-        );
-
-        client.getCanvas().dispatchEvent(e);
+        client.getCanvas().dispatchEvent(new MouseEvent(
+            client.getCanvas(),
+            id,
+            System.currentTimeMillis(),
+            0,
+            (int) point.getX(),
+            (int) point.getY(),
+            (int) point.getX(),
+            (int) point.getY(),
+            1,
+            false,
+            MouseEvent.BUTTON1
+        ));
     }
 
     // Matches an item name surrounded by <col> tags
@@ -83,5 +100,9 @@ public class Utils {
         } catch (Exception e) {
             return rawItemName;
         }
+    }
+
+    public static int squaredDistanceBetween(int x1, int y1, int x2, int y2) {
+        return (x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2);
     }
 }

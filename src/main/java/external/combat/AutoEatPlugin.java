@@ -1,4 +1,4 @@
-package external;
+package external.combat;
 
 import com.google.inject.Provides;
 import lombok.extern.slf4j.Slf4j;
@@ -21,7 +21,8 @@ import java.util.concurrent.TimeUnit;
 
 @Slf4j
 @PluginDescriptor(
-	name = "Auto-Eat"
+	name = "Auto-Eat",
+	tags = "external"
 )
 public class AutoEatPlugin extends Plugin
 {
@@ -101,7 +102,7 @@ public class AutoEatPlugin extends Plugin
 
 		var inventory = client.getWidget(InterfaceID.Inventory.ITEMS);
 		if (inventory == null) {
-			log.debug("Couldn't retrieve inventory");
+			// log.debug("Couldn't retrieve inventory");
 			return;
 		}
 		if (inventory.isHidden()) {
@@ -112,7 +113,7 @@ public class AutoEatPlugin extends Plugin
 
 		var inventoryItems = inventory.getChildren();
 		if (inventoryItems == null) {
-			log.debug("inventory had no children");
+			// log.debug("inventory had no children");
 			return;
 		}
 
@@ -123,12 +124,11 @@ public class AutoEatPlugin extends Plugin
 			}
 
 			found = true;
-			log.debug("Preparing to eat (name={}, text={}, hidden={}, self_hidden={})", helper.Utils.stripItemNameTags(item.getName()), item.getText(), item.isHidden(), item.isSelfHidden());
+			// log.debug("Preparing to eat (name={}, text={}, hidden={}, self_hidden={})", helper.Utils.stripItemNameTags(item.getName()), item.getText(), item.isHidden(), item.isSelfHidden());
 			if (!config.dryRun()) {
 				executorService.submit(() -> {
 					log.debug("clicking <x={}, y={}> to auto-eat {}", item.getBounds().getX(), item.getBounds().getY(), helper.Utils.stripItemNameTags(item.getName()));
-
-					helper.Utils.click(client, item.getBounds());
+					helper.Utils.click(client, item.getBounds(), true);
 				});
 			}
 

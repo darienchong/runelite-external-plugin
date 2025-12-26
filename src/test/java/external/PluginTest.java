@@ -1,5 +1,7 @@
 package external;
 
+import external.combat.AutoEatPlugin;
+import external.combat.AutoFightPlugin;
 import net.runelite.client.RuneLite;
 import net.runelite.client.externalplugins.ExternalPluginManager;
 
@@ -10,13 +12,10 @@ public class PluginTest
 	@SuppressWarnings("unchecked")
     public static void main(String[] args) throws Exception
 	{
-		@SuppressWarnings("ArraysAsListWithZeroOrOneArgument")
-		var externalPlugins = Arrays.asList(
+		ExternalPluginManager.loadBuiltin(
+			AutoFightPlugin.class,
 			AutoEatPlugin.class
 		);
-		for (var pluginClass : externalPlugins) {
-			ExternalPluginManager.loadBuiltin(pluginClass);
-		}
 		RuneLite.main(args);
 	}
 }
