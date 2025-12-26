@@ -1,12 +1,13 @@
 package helper;
 
+import lombok.extern.slf4j.Slf4j;
 import net.runelite.api.Client;
-import net.runelite.api.widgets.Widget;
 
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.util.regex.Pattern;
 
+@Slf4j
 public class Utils {
     /**
      * This method must be called on a new
@@ -68,15 +69,19 @@ public class Utils {
     }
 
     // Matches an item name surrounded by <col> tags
-    final static String ITEM_NAME_REGEX = "(?:<col=[a-zA-Z0-9]+>)*([a-zA-Z0-9]+)(?:</col>)*";
+    final static String ITEM_NAME_REGEX = "(<col=(.*)+>)?([a-zA-Z0-9]+)(</col>)?";
     final static Pattern ITEM_NAME_PATTERN = Pattern.compile(ITEM_NAME_REGEX);
 
-    public static String getItemName(Widget item) {
-        var matcher = ITEM_NAME_PATTERN.matcher(item.getName());
-        if (!matcher.matches()) {
-            return item.getName();
-        }
+    public static String stripItemNameTags(String rawItemName) {
+        try {
+            var matcher = ITEM_NAME_PATTERN.matcher(rawItemName);
+            if (!matcher.find()) {
+                return rawItemName;
+            }
 
-        return matcher.group(0);
+            return matcher.group(3);
+        } catch (Exception e) {
+            return rawItemName;
+        }
     }
 }

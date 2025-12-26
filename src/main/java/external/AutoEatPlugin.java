@@ -123,10 +123,10 @@ public class AutoEatPlugin extends Plugin
 			}
 
 			found = true;
-			log.debug("Preparing to eat (name={}, text={}, hidden={}, self_hidden={})", helper.Utils.getItemName(item), item.getText(), item.isHidden(), item.isSelfHidden());
+			log.debug("Preparing to eat (name={}, text={}, hidden={}, self_hidden={})", helper.Utils.stripItemNameTags(item.getName()), item.getText(), item.isHidden(), item.isSelfHidden());
 			if (!config.dryRun()) {
 				executorService.submit(() -> {
-					log.debug("clicking <x={}, y={}> to auto-eat {}", item.getBounds().getX(), item.getBounds().getY(), helper.Utils.getItemName(item));
+					log.debug("clicking <x={}, y={}> to auto-eat {}", item.getBounds().getX(), item.getBounds().getY(), helper.Utils.stripItemNameTags(item.getName()));
 
 					helper.Utils.click(client, item.getBounds());
 				});
